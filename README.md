@@ -17,3 +17,8 @@ open in browser
 
 Default Base URL: http://localhost:8888
 Optionally configure your CLI to override the default base URL by running bootdev configure base_url <url>
+
+
+### Architecture
+
+![alt text](/public/images/arcitecture.png)
