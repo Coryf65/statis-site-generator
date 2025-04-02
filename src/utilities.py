@@ -108,19 +108,18 @@ def split_nodes_link(old_nodes):
         if original_text != "":
             new_nodes.append(TextNode(original_text, TextType.TEXT))
     return new_nodes
-        
 
-# use case for the split_nodes_link function
-node = TextNode(
-    "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)",
-    TextType.TEXT,
-)
-new_nodes = split_nodes_link([node])
-# [
-#     TextNode("This is text with a link ", TextType.TEXT),
-#     TextNode("to boot dev", TextType.LINK, "https://www.boot.dev"),
-#     TextNode(" and ", TextType.TEXT),
-#     TextNode(
-#         "to youtube", TextType.LINK, "https://www.youtube.com/@bootdotdev"
-#     ),
-# ]
+def text_to_textnodes(text):
+    """
+    Converts a text string to a list of TextNode objects.
+    
+    :param text: The input text string.
+    :return: A list of TextNode objects representing the text.
+    """
+    nodes = [TextNode(text, TextType.TEXT)]
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    return nodes
