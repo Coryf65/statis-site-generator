@@ -202,7 +202,7 @@ class TestClassName(unittest.TestCase):
         
         result = text_to_textnodes(text)
         
-        self.assertEqual(expected, result)
+        self.assertEqual(expected, result)        
 
 
 if __name__ == '__main__':
