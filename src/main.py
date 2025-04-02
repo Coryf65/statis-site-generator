@@ -1,28 +1,20 @@
 #!/usr/bin/python3
 
-import textnode
-import utilities
-from textnode import TextNode, TextType
+import os
+import shutil
+from copystatic import copy_files_recursive
+
+dir_path_static = "./static"
+dir_path_public = "./public"
 
 
 def main():
-    # print("hello world")
-    # node = textnode.TextNode("This is some anchor text", textnode.TextType.LINKS, "https://www.boot.dev")
-    # print(node)
-    # TextNode(This is some anchor text, link, https://www.boot.dev)
-    
-    # cory test
-    test1 = """
-    This is **bolded** paragraph
+    print("Deleting public directory...")
+    if os.path.exists(dir_path_public):
+        shutil.rmtree(dir_path_public)
 
-    This is another paragraph with _italic_ text and `code` here
-    This is the same paragraph on a new line
-
-    - This is a list
-    - with items
-    """
-    result = utilities.markdown_to_blocks(test1)
-    print("result: \n", result)   
+    print("Copying static files to public directory...")
+    copy_files_recursive(dir_path_static, dir_path_public)
 
 
 if __name__ == '__main__':
