@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+import os
 from markdown_blocks import markdown_to_html_node
 from utilities import extract_title
 
@@ -31,8 +32,9 @@ def generate_page(from_path, template_path, dest_path):
     one = template_file.replace("""{{ Title }}""", title)
     converted_html = one.replace("{{ Content }}", body)
     
-    # write a new full HTML page to a file at dest_path, also create the directory if it does not exist
-    print(converted_html)
-    dest_file = open(dest_path, "w")
-    dest_file.write(converted_html)
-    dest_file.close()
+    # write a new full HTML page to a file at dest_path, also create the directory if it does not exist    
+    dest_dir_path = os.path.dirname(dest_path)
+    if dest_dir_path != "":
+        os.makedirs(dest_dir_path, exist_ok=True)
+    to_file = open(dest_path, "w")
+    to_file.write(converted_html)
