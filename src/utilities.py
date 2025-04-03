@@ -123,3 +123,17 @@ def text_to_textnodes(text):
     nodes = split_nodes_image(nodes)
     nodes = split_nodes_link(nodes)
     return nodes
+
+    
+def extract_title(markdown):
+    """
+    Extracts the title from a markdown string.
+    
+    :param markdown: The input markdown string.
+    :return: The extracted title string.
+    """
+    if markdown.startswith("# "):
+        title = markdown.split("\n")[0].strip('# ')
+        return title
+    else:
+        raise ValueError("invalid markdown, title not found")

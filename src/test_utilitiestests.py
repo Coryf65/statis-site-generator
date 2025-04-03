@@ -9,6 +9,7 @@ from utilities import (
     split_nodes_image,
     split_nodes_link,
     text_to_textnodes,
+    extract_title,
 )
 from textnode import TextNode, TextType
 
@@ -204,6 +205,19 @@ class TestClassName(unittest.TestCase):
         
         self.assertEqual(expected, result)        
 
+
+    def test_extract_title(self):
+        text = "# This is a title"
+        expected = "This is a title"
+        result = extract_title(text)
+        self.assertEqual(expected, result)
+        
+        
+    def test_extract_title_big_text(self):
+        text = '# Tolkien Fan Club\n\n![JRR Tolkien sitting](/images/tolkien.png)\n\nHere\'s the deal, **I like Tolkien**.\n\n> "I am in fact a Hobbit in all but size."\n>\n> -- J.R.R. Tolkien\n\n## Blog posts\n\n- [Why Glorfindel is More Impressive than Legolas](/blog/glorfindel)\n- [Why Tom Bombadil Was a Mistake](/blog/tom)\n- [The Unparalleled Majesty of "The Lord of the Rings"](/blog/majesty)\n\n## Reasons I like Tolkien\n\n- You can spend years studying the legendarium and still not understand its depths\n- It can be enjoyed by children and adults alike\n- Disney _didn\'t ruin it_ (okay, but Amazon might have)\n- It created an entirely new genre of fantasy\n\n## My favorite characters (in order)\n\n1. Gandalf\n2. Bilbo\n3. Sam\n4. Glorfindel\n5. Galadriel\n6. Elrond\n7. Thorin\n8. Sauron\n9. Aragorn\n\nHere\'s what `elflang` looks like (the perfect coding language):\n\n```\nfunc main(){\n    fmt.Println("Aiya, Ambar!")\n}\n```\n\nWant to get in touch? [Contact me here](/contact).\n\nThis site was generated with a custom-built [static site generator](https://www.boot.dev/courses/build-static-site-generator-python) from the course on [Boot.dev](https://www.boot.dev).'
+        expected = "Tolkien Fan Club"
+        result = extract_title(text)
+        self.assertEqual(expected, result)
 
 if __name__ == '__main__':
     unittest.main()
