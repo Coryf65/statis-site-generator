@@ -25,15 +25,28 @@ def block_to_block_type(block):
     :param block: A single block of markdown text
     :return: The BlockType representing the type of block
     """
-    if block.startswith("#"):
+    lines = block.split("\n")
+    
+    if block.startswith(("# ", "## ", "### ", "#### ", "##### ", "###### ")):
         return BlockType.HEADING
-    elif block.startswith("`"):
+    elif len(lines) > 1 and lines[0].startswith("```") and lines[-1].startswith("```"):
         return BlockType.CODE
-    elif block.startswith("> "):
+    elif block.startswith(">"):
+        for line in lines:
+            if not line.startswith(">"):
+                return BlockType.PARAGRAPH
         return BlockType.QUOTE
     elif block.startswith("- "):
+        for line in lines:
+            if not line.startswith("- "):
+                return BlockType.PARAGRAPH
         return BlockType.ULIST
-    elif block[0].isdigit() and block[1] == ".":
+    elif block.startswith("1. "):
+        i = 1
+        for line in lines:
+            if not line.startswith(f"{i}. "):
+                return BlockType.PARAGRAPH
+            i += 1
         return BlockType.OLIST
     else:
         return BlockType.PARAGRAPH
@@ -117,6 +130,7 @@ def heading_to_html_node(block):
 
 
 def code_to_html_node(block):
+    print("code block: ", block)
     if not block.startswith("```") or not block.endswith("```"):
         raise ValueError("invalid code block")
     text = block[4:-3]
