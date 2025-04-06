@@ -1,0 +1,1 @@
+python3 src/main.py "https://github.com/Coryf65/statis-site-generator"

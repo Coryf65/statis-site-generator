@@ -6,7 +6,7 @@ from markdown_blocks import markdown_to_html_node
 from utilities import extract_title
 
 
-def generate_page(from_path, template_path, dest_path):
+def generate_page(from_path, template_path, dest_path, base_path):
     """
     Generates a page from a template and a source file.
     
@@ -33,6 +33,10 @@ def generate_page(from_path, template_path, dest_path):
     one = template_file.replace("""{{ Title }}""", title)
     converted_html = one.replace("{{ Content }}", body)
     
+    # replace href="/ with href="{BASEPATH}, and src="/ with src="{BASEPATH}
+    template = template.replace('href="/', 'href="' + base_path)
+    template = template.replace('src="/', 'src="' + base_path)
+    
     # write a new full HTML page to a file at dest_path, also create the directory if it does not exist    
     dest_dir_path = os.path.dirname(dest_path)
     if dest_dir_path != "":
@@ -41,7 +45,7 @@ def generate_page(from_path, template_path, dest_path):
     to_file.write(converted_html)
  
     
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, base_path):
     """
     Crawls through the directory and generates new html pages for all markdown files.
     
@@ -54,6 +58,6 @@ def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
         dest_path = os.path.join(dest_dir_path, filename)
         if os.path.isfile(from_path):
             dest_path = Path(dest_path).with_suffix(".html")
-            generate_page(from_path, template_path, dest_path)
+            generate_page(from_path, template_path, dest_path, base_path)
         else:
-            generate_pages_recursive(from_path, template_path, dest_path)
+            generate_pages_recursive(from_path, template_path, dest_path, base_path)
