@@ -1,4 +1,4 @@
-# Static Site Generator buitl in Python
+# Static Site Generator built in Python
 
 using 
 - python
